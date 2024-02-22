@@ -1,0 +1,55 @@
+version: '3'
+
+volumes:
+  boilingfrog_local_postgres_data: {}
+  boilingfrog_local_postgres_data_backups: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: boilingfrog_local_django
+    container_name: boilingfrog_local_django
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - '8000:8000'
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: boilingfrog_production_postgres
+    container_name: boilingfrog_local_postgres
+    volumes:
+      - boilingfrog_local_postgres_data:/var/lib/postgresql/data
+      - boilingfrog_local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+
+  redis:
+    image: "redis:alpine"
+
+  # docs:
+  #   image: boiling_frog_local_docs
+  #   container_name: boiling_frog_local_docs
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/local/docs/Dockerfile
+  #   env_file:
+  #     - ./.envs/.local/.django
+  #   volumes:
+  #     - ./docs:/docs:z
+  #     - ./config:/app/config:z
+  #     - ./board_game_engine:/app/board_game_engine:z
+  #   ports:
+  #     - '9000:9000'
+  #   command: /start-docs
