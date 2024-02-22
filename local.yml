@@ -1,16 +1,16 @@
 version: '3'
 
 volumes:
-  boilingfrog_local_postgres_data: {}
-  boilingfrog_local_postgres_data_backups: {}
+  boilingclimate_local_postgres_data: {}
+  boilingclimate_local_postgres_data_backups: {}
 
 services:
   django:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: boilingfrog_local_django
-    container_name: boilingfrog_local_django
+    image: boilingclimate_local_django
+    container_name: boilingclimate_local_django
     depends_on:
       - postgres
       - redis
@@ -27,11 +27,11 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: boilingfrog_production_postgres
-    container_name: boilingfrog_local_postgres
+    image: boilingclimate_production_postgres
+    container_name: boilingclimate_local_postgres
     volumes:
-      - boilingfrog_local_postgres_data:/var/lib/postgresql/data
-      - boilingfrog_local_postgres_data_backups:/backups
+      - boilingclimate_local_postgres_data:/var/lib/postgresql/data
+      - boilingclimate_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
 

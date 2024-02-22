@@ -1,0 +1,6 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+#DATABASE_URL=postgres://debug:debug@postgres:5432/board_game_engine
+REDIS_URL=redis://redis:6379/0
