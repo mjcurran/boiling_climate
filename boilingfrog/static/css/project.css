@@ -145,6 +145,20 @@ body {
   text-align: center;
 }
 
+.togglebutton {
+  position: relative;
+  padding: 5px;
+  border: 1;
+  border-radius: 7px;
+  background-color: #5d9351;
+  box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+  scale: 75%;
+  width: 200px;
+
+}
+
 .stickybutton {
   position: relative;
   padding: 5px;
@@ -161,6 +175,10 @@ body {
 
 .stickybutton:hover {
   /*background-color: aquamarine;*/
+  background:linear-gradient(180deg,#e5f4fd 45%,#b3e0f9 0);
+}
+
+.togglebutton:hover {
   background:linear-gradient(180deg,#e5f4fd 45%,#b3e0f9 0);
 }
 

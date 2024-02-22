@@ -33,9 +33,65 @@
                         <div><h2>Rain</h2><img src="{% static 'images/thirstyearth/cloud.png' %}" alt="rain" class="game-piece"/></div>
                         <div><h2>Profit</h2><img src="{% static 'images/thirstyearth/briefcase.png' %}" alt="profit" class="game-piece"></div>
                     </div>
+                    <div class="flex-container">
+                        <div>Buy Water Saving Technology</div>
+                        
+                        <button class="togglebutton" id="buy-tech-button">
+                            <img src="{% static 'images/thirstyearth/well.png' %}" class="game-piece" alt="technology" />
+                        </button>
+                        
+                    </div>
                 </div>
             </div>
         
         </div>
     </body>
+    <script>
+        var baseURL = "{% static 'images/' %}";
+        
+        function closeAllStickyButtons() {
+            const buttonList = document.querySelectorAll('.stickybutton');
+            for (let i = 0; i < buttonList.length; i++) {
+                buttonList[i].classList.remove('pressed');
+            }
+        }
+
+        var cropSelected = "";
+        var buyTech = "";
+
+        const noCropButton = document.getElementById('no-crop-button');
+        noCropButton.addEventListener('click', function() {
+            console.log('no crop button clicked');
+            closeAllStickyButtons();
+            noCropButton.classList.add('pressed');
+            cropSelected = "";
+            var field = document.getElementById('farm-field');
+            field.src = baseURL + 'thirstyearth/fallow_field.png';
+        });
+
+        const lightCropButton = document.getElementById('one-crop-button');
+        lightCropButton.addEventListener('click', function() {
+            console.log('yes crop button clicked');
+            closeAllStickyButtons();
+            lightCropButton.classList.add('pressed');
+            cropSelected = "crop";
+            var field = document.getElementById('farm-field');
+            field.src = baseURL + 'thirstyearth/crop_field.png';
+        });
+
+        const waterButton = document.getElementById('buy-tech-button');
+        waterButton.addEventListener('click', function() {
+            console.log('water button clicked');
+            
+            if(waterButton.classList.contains('pressed')){
+                waterButton.classList.remove('pressed');
+                buyTech = "";
+                return;
+            }
+            waterButton.classList.add('pressed');
+            buyTech = "buy_tech";
+        });
+
+        
+    </script>
 </html>
