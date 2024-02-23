@@ -3,6 +3,7 @@ version: '3'
 volumes:
   fallo_local_postgres_data: {}
   fallo_local_postgres_data_backups: {}
+  graph-img-serve: {}
 
 services:
   django:
@@ -47,7 +48,9 @@ services:
     volumes:
       - ./Plumber:/app
       - graph-img-serve:/var/media/graph_imgs
-    command: "/app/ThirstyEarth_FinalEducationCode.R"
+    ports:
+      - '127.0.0.1:9000:8000'
+    command: "/app/ThirstyEarth_BoilingFrogCode.R"
 
   # docs:
   #   image: boiling_frog_local_docs

@@ -8,27 +8,52 @@ library(tidyverse)
 library(ggplot2)
 
 #######################################################################################################################################################################################
-ThirstyEarth = function(round, crop, invest, minW, aF, max_income, WH, rain_mean, rain_var, dmean, dvar)
-  
+#* Return the next round params.
+#* @param round:number #game round
+#* @param crop:number #plant or not
+#* @param invest:number #invest or not
+#* @param minW:number #minimum water availability when the player has the technology 
+#* @param aF:number #fallow profit; equitable profit to W ~= 56
+#* @param max_income:number #maximum possible profit per round
+#* @param WH:int #half-saturation  constant
+#* @param rain_mean:int #initial mean value for rainfall distribution 
+#* @param rain_var:int #initial variability of rainfall distribution 
+#* @param dmean:number #total % change in rainfall mean from round 1 to round 24 (implemented every 4 rounds)
+#* @param dvar:number #total % change in rainfall variability from round 1 to round 24 (implemented every 4 rounds)
+#* @post /calculate
+ThirstyEarth = function(round, crop, invest, minW, aF, max_income, WH, rain_mean, rain_var, dmean, dvar){
+  # callable as http://localhost:8000/calculate
+  # POST body: {"round":1,"crop":1,"invest":0,"minW":50,"aF":650,"max_income":1000,"WH":30,"rain_mean":85,"rain_var":15,"dmean":".75","dvar":".40"}
+  round == as.numeric(round)
+  crop = as.numeric(crop)
+  invest = as.numeric(invest)
+  minW = as.numeric(minW)
+  aF = as.numeric(aF)
+  max_income = as.numeric(max_income)
+  WH = as.numeric(WH)
+  rain_mean = as.numeric(rain_mean)
+  rain_var = as.numeric(rain_var)
+  dmean = as.numeric(dmean)
+  dvar = as.numeric(dvar)
  #### Game Inputs #### UNCOMMENT TO TEST CODE, COMMENT TO RUN GAME ####
  ##Player game play inputs
- round = 1 #round number
- crop = 1  #player choice: 0 - fallow, 1 - crop
- invest = 0 #whether player has invested in the technology: 0 - no, 1 - yes
+ #round = 1 #round number
+ #crop = 1  #player choice: 0 - fallow, 1 - crop
+ #invest = 0 #whether player has invested in the technology: 0 - no, 1 - yes
  
  ##Game design inputs
  #crop income parameters:
- minW = 50 #minimum water availability when the player has the technology 
- aF = 650 #fallow profit; equitable profit to W ~= 56
- max_income = 1000 #maximum possible profit per round
- WH = 30 #half-saturation  constant
+ #minW = 50 #minimum water availability when the player has the technology 
+ #aF = 650 #fallow profit; equitable profit to W ~= 56
+ #max_income = 1000 #maximum possible profit per round
+ #WH = 30 #half-saturation  constant
  
  #climate distribution parameters:
- rain_mean = 85 #initial mean value for rainfall distribution 
- rain_var = 15 #initial variability of rainfall distribution 
- dvar = .40 #total % change in rainfall variability from round 1 to round 24 (implemented every 4 rounds)
+ #rain_mean = 85 #initial mean value for rainfall distribution 
+ #rain_var = 15 #initial variability of rainfall distribution 
+ #dvar = .40 #total % change in rainfall variability from round 1 to round 24 (implemented every 4 rounds)
  #different treatments affected by:
- dmean = .75 #total % change in rainfall mean from round 1 to round 24 (implemented every 4 rounds)
+ #dmean = .75 #total % change in rainfall mean from round 1 to round 24 (implemented every 4 rounds)
  
  #Initial Error Checks
  if (rain_mean == (rain_var+(rain_var*dvar))) stop('Minimum mean rainfall of 0 + maximum variability (no negative water)')
