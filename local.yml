@@ -1,16 +1,16 @@
 version: '3'
 
 volumes:
-  boilingclimate_local_postgres_data: {}
-  boilingclimate_local_postgres_data_backups: {}
+  fallo_local_postgres_data: {}
+  fallo_local_postgres_data_backups: {}
 
 services:
   django:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: boilingclimate_local_django
-    container_name: boilingclimate_local_django
+    image: fallo_local_django
+    container_name: fallo_local_django
     depends_on:
       - postgres
       - redis
@@ -27,16 +27,27 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: boilingclimate_production_postgres
-    container_name: boilingclimate_local_postgres
+    image: fallo_production_postgres
+    container_name: fallo_local_postgres
     volumes:
-      - boilingclimate_local_postgres_data:/var/lib/postgresql/data
-      - boilingclimate_local_postgres_data_backups:/backups
+      - fallo_local_postgres_data:/var/lib/postgresql/data
+      - fallo_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
 
   redis:
     image: "redis:alpine"
+
+  plumber:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: ./Plumber
+    container_name: fallo_plumber
+    volumes:
+      - ./Plumber:/app
+      - graph-img-serve:/var/media/graph_imgs
+    command: "/app/ThirstyEarth_FinalEducationCode.R"
 
   # docs:
   #   image: boiling_frog_local_docs

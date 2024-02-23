@@ -12,9 +12,9 @@ services:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
 
-    image: board_game_engine_production_django
+    image: fallo_production_django
     volumes:
-      - production_django_media:/app/board_game_engine/media
+      - production_django_media:/app/fallo/media
     depends_on:
       - postgres
       - redis
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: board_game_engine_production_postgres
+    image: fallo_production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
@@ -38,7 +38,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: board_game_engine_production_traefik
+    image: fallo_production_traefik
     depends_on:
       - django
     volumes:
@@ -54,8 +54,20 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
-    image: board_game_engine_local_nginx
+    image: fallo_local_nginx
     depends_on:
       - django
     volumes:
       - production_django_media:/usr/share/nginx/media:ro
+
+
+networks:plumber:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: ./Plumber
+    container_name: fallo_plumber
+    volumes:
+      - ./Plumber:/app
+      - graph-img-serve:/var/media/graph_imgs
+    command: "/app/ThirstyEarth_BoilingFrogCode.R"
